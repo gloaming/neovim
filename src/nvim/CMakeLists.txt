@@ -381,6 +381,12 @@ if(WIN32)
   list(APPEND NVIM_LINK_LIBRARIES ${WINPTY_LIBRARIES})
 endif()
 
+get_filename_component(LIBLUV_PATH ${LIBLUV_LIBRARIES} PATH)
+get_filename_component(LIBLUV_NAME ${LIBLUV_LIBRARIES} NAME)
+if(LIBLUV_NAME STREQUAL luv.so)
+  set(LIBLUV_LIBRARIES "-L ${LIBLUV_PATH} -l:${LIBLUV_NAME} -Wl,--rpath ${LIBLUV_PATH}")
+endif()
+
 # Put these last on the link line, since multiple things may depend on them.
 list(APPEND NVIM_LINK_LIBRARIES
   ${LIBLUV_LIBRARIES}
